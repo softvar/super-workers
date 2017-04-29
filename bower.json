@@ -1,0 +1,47 @@
+{
+  "name": "super-workers",
+  "description": "Distribute workload among web workers",
+  "version": "1.0.0",
+  "homepage": "https://github.com/softvar/super-workers",
+  "bugs": "https://github.com/softvar/super-workers/issues",
+  "author": {
+    "name": "Varun Malhotra",
+    "email": "varun2902@gmail.com",
+    "url": "https://github.com/softvar"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/softvar/super-workers.git"
+  },
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/softvar/super-workers/blob/master/LICENSE"
+  }],
+  "main": [
+    "dist/super-workers.js"
+  ],
+  "keywords": [
+    "super-workers",
+    "web worker",
+    "worker postmessage",
+    "distrubte tasks",
+    "load balancing",
+    "es6",
+    "commonjs",
+    "webpack"
+  ],
+  "ignore": [
+    "node_modules",
+    "tests",
+    "webpack.config.js",
+    ".gitignore",
+    ".travis.yml",
+    ".eslintrc",
+    ".babelrc",
+    "karma.conf.js",
+    "LICENSE",
+    "coverage"
+  ],
+  "dependencies": {
+  }
+}
