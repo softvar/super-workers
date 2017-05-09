@@ -1,4 +1,4 @@
-import Promise from './Promise';
+import Promise from './vendor/Promise';
 
 import MainThread from './MainThread';
 import WorkerThread from './WorkerThread';
