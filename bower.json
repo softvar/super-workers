@@ -1,7 +1,7 @@
 {
   "name": "super-workers",
   "description": "Distribute workload among web workers",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "homepage": "https://github.com/softvar/super-workers",
   "bugs": "https://github.com/softvar/super-workers/issues",
   "author": {
