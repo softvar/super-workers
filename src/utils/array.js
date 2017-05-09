@@ -29,10 +29,10 @@ ArrayUtils.searchByKeyName = (data, key, value, returnPreference) => {
   for (i = 0; i < data.length; i++) {
     obj = data[i];
     // Number matching support
-    if (!isNaN(value) && parseInt(obj[key], 10) === parseInt(value, 10)) {
+    if (!isNaN(value) && obj && parseInt(obj[key], 10) === parseInt(value, 10)) {
       index = i;
       break;
-    } else if (isNaN(value) && obj[key] === value) { // String exact matching support
+    } else if (isNaN(value) && obj && obj[key] === value) { // String exact matching support
       index = i;
       break;
     }
