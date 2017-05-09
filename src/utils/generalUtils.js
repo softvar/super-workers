@@ -5,9 +5,13 @@ let GeneralUtils = {
     return value && (typeof value.then === 'function');
   },
   serializeFunction: (fn) => {
+    if (!fn || typeof fn !== 'function') { return false; }
+
     return encodeURI(fn.toString());
   },
   deSerializeFunction: (fn) => {
+    if (!fn || typeof fn !== 'string') { return false; }
+
     return decodeURI(fn);
   },
   serializeError: (error) => {
@@ -27,7 +31,7 @@ let GeneralUtils = {
     let i, fakeError = new Error('');
 
     if (!error) {
-      return new Error('');
+      return fakeError;
     }
 
     let props = Object.keys(error);
