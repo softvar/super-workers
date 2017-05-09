@@ -13,13 +13,20 @@ let TaskQueue = {
    */
   _add: (task) => {
     if (!task) { throw new Error('No task passed for queuing'); }
-    if (typeof task !== 'object') { throw new Error('Task should be an object'); }
+
+    if (Object.prototype.toString.call(task) !== '[object Object]') {
+      throw new Error('Task should be an object');
+    }
 
     task.id = UUID.generate() || TaskQueue.tasks.length;
     task.status = TaskStatusEnum.QUEUED;
     TaskQueue.tasks.push(task);
   },
   _addToCompletedList: (task) => {
+    if (!task) { throw new Error('No task passed for queuing'); }
+
+    if (Object.prototype.toString.call(task) !== '[object Object]') { throw new Error('Task should be an object'); }
+
     TaskQueue.completedTasks.push(task);
   },
   /**
@@ -27,22 +34,20 @@ let TaskQueue = {
    * @param {Number} task
    */
   _remove: (id) => {
-    if (!id) {
-      throw new Error('No id passed');
-    }
+    if (!id) { throw new Error('No id passed'); }
 
     let task;
 
     task = ArrayUtils.searchByKeyName(TaskQueue.tasks, 'id', id, 'both');
     TaskQueue._addToCompletedList(task.obj);
-    TaskQueue.tasks.splice(task.index, 1);
+    if (task.index !== -1) {
+      TaskQueue.tasks.splice(task.index, 1);
+    }
 
     return this;
   },
   _getCompleted: (id) => {
-    if (!id) {
-      throw new Error('No id passed');
-    }
+    if (!id) { throw new Error('No id passed'); }
 
     let task = ArrayUtils.searchByKeyName(TaskQueue.completedTasks, 'id', id);
 
@@ -54,9 +59,7 @@ let TaskQueue = {
    * @return {Object} task being queried or an empty Object(if not found)
    */
   get: (id) => {
-    if (!id) {
-      return TaskQueue.tasks[TaskQueue.tasks.length - 1] || {};
-    }
+    if (!id) { return TaskQueue.tasks[0] || {}; }
 
     let task = ArrayUtils.searchByKeyName(TaskQueue.tasks, 'id', id);
 
