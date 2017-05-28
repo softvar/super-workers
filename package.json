@@ -4,10 +4,10 @@
   "description": "Distribute workload among web workers",
   "main": "dist/super-workers.js",
   "scripts": {
-    "build": "webpack --mode=build",
-    "build-dev": "webpack-dashboard -- webpack --mode=dev",
+    "build": "parallel-webpack --mode=build",
+    "build-dev": "parallel-webpack -- webpack --mode=dev",
     "build-test": "karma start --single-run --no-auto-watch karma.config.js",
-    "dev": "webpack-dashboard -- webpack --progress --colors --watch --mode=dev",
+    "dev": "parallel-webpack -- webpack --progress --colors --watch --mode=dev",
     "test": "karma start karma.config.js",
     "coverage": "node node_modules/.bin/istanbul cover karma start --single-run karma.config.js",
     "coveralls": "cat ./coverage/report-lcov/lcov.info | node node_modules/.bin/coveralls"
@@ -34,7 +34,6 @@
     "karma-webpack": "^2.0.2",
     "parallel-webpack": "^1.6.1",
     "webpack": "1.12.9",
-    "webpack-dashboard": "^0.3.0",
     "yargs": "3.32.0"
   },
   "repository": {
