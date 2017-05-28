@@ -122,14 +122,15 @@ class MainThread {
 
     let resolver = Promise.defer();
 
-    let task = {
+    let task = {};
+
+    Object.assign(task, config);
+    Object.assign(task, {
       method: method,
       params: params,
       resolver: resolver,
       priority: (config && config.priority) || TaskStatusEnum.LOW
-    };
-
-    Object.assign(task, config);
+    });
 
     this.taskQueue._add(task);
     this._runQueuedTask();

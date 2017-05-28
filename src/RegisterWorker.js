@@ -55,12 +55,18 @@ class RegisterWorker {
     if (ev.data.error) {
       task.resolver.reject(GeneralUtils.deSerializeError(ev.data.error));
       this.totalJobsFailed += 1;
+      this.lastJobFaileddAt = +new Date();
+      if (task.onError && typeof task.onError === 'function') {
+        task.onError();
+      }
       return false;
     }
     task.resolver.resolve(ev.data.result);
     this.totalJobsCompleted += 1;
     this.lastJobCompletedAt = +new Date();
-
+    if (task.onSuccess && typeof task.onSuccess === 'function') {
+      task.onSuccess();
+    }
     return true;
   };
   /**
