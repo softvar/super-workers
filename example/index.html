@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Super Workers | Home</title>
+</head>
+<body>
+	<button id="open-low">Start a new low-priority task</button>
+	<button id="open-medium">Start a new mediun-priority task</button>
+	<button id="open-high">Start a new high-priority task</button>
+
+	<br />
+	<button id="get-free">Get next task</button>
+
+	<script type="text/javascript" src="../dist/super-workers.js"></script>
+	<script type="text/javascript">
+
+		document.addEventListener('DOMContentLoaded', function(event) {
+			var main = window.main = new SuperWorkers.MainThread({
+				url: 'my-worker.js',
+				maxWorkers: 3, // hardwareConcurrency
+				minWorkers: 1,
+				killWorkersAfterJob: true
+			});
+
+			var prom;
+
+
+			function add(a, b) {
+				var p = SuperWorkers.Promise.defer();
+
+				// p.promise.timeout(1000)
+				setTimeout(function () {
+					return p.resolve(a + b);
+				}, 2000);
+
+				// p.promise.cancel();
+				return p.promise;
+			}
+
+
+			document.getElementById('open-low').addEventListener('click', function () {
+				prom = window.main.exec('add', [1,2], {
+					priority: 'low',
+					name: 'add-low'
+				}).then(function (val) {
+					console.log(val);
+				}).catch(function (err) {
+					console.log(err)
+				});
+
+				/*window.main.workers[0].worker.postMessage({
+					id: window.main.workers[0].id,
+					action: 'handshake',
+					message: 'Hello'
+				});*/
+			}, false);
+			document.getElementById('open-medium').addEventListener('click', function () {
+				prom = window.main.exec(add, [2, 3], {
+					priority: 'medium',
+					name: 'add-medium'
+				}).then(function (val) {
+					console.log(val);
+				}).catch(function (err) {
+					console.log(err)
+				});
+			}, false);
+			document.getElementById('open-high').addEventListener('click', function () {
+				prom = window.main.exec(add, [4, 5], {
+					priority: 'high',
+					name: 'add-high'
+				}).then(function (val) {
+					console.log(val);
+				}).catch(function (err) {
+					console.log(err)
+				});
+			}, false);
+			document.getElementById('get-free').addEventListener('click', function () {
+				console.log(window.main.taskQueue.getNextTask());
+			}, false);
+		});
+	</script>
+</body>
+</html>
