@@ -112,9 +112,11 @@ small {
 
 
 .fp-tooltip {
-  color: #fff4f4;
+  color: #d87070 !important;
 }
-
+#fp-nav ul li a span, .fp-slidesNav ul li a span {
+  background: #d87070;
+}
 
 
 
@@ -137,11 +139,8 @@ small {
     text-decoration:none;
     color: #444;
 }
-#menu li.active a:hover{
-    color: #4A5290;
-}
-#menu li:hover{
-    background: rgba(255,255,255, 0.8);
+#menu li a:hover{
+    color: #d87070;
 }
 #menu li a,
 #menu li.active a{
@@ -164,23 +163,19 @@ small {
     transition-duration: .2s;
     transition-timing-function: cubic-bezier(.4,0,.2,1);
     transition-property: max-height,box-shadow;
-    text-align: right;
+    text-align: center;
     font-size: 18px;
 }
 .drawer {
-    position: absolute;
-    top: 5px;
-    display: inline-block;
-    color: #fff;
-    background: #d87070!important;
-    height: 48px;
-    width: 48px;
-    /* border: 0; */
-    text-align: center;
-    cursor: pointer;
-    font-size: 26px;
-    line-height: 50px;
-    font-family: Helvetica,Arial,sans-serif;
+  color: #fff;
+  position: absolute; */
+  color: #fff;
+  background: #d87070!important;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+  line-height: 50px;
+  font-family: Helvetica,Arial,sans-serif;
 }
 
 

@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <link rel="stylesheet" type="text/css" href="css/material.red-pink.min.css">
     <link rel="stylesheet" type="text/css" href="css/jquery.fullpage.min.css" />
     <link rel="stylesheet" type="text/css" href="css/page.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
 
@@ -21,17 +22,19 @@
     </a>
 
     <div id="menu">
-        <div style="float: left; padding: 18px 10px; font-size: 20px;">
-            <div class="drawer">
+        <div style="float: left; padding: 6px 0 0 10px;">
+            <a href="" class="drawer">
                 <i class="material-icons"></i>
-            </div>
-            <span style="margin-left: 55px;">Super Workers</span>
+            </a>
         </div>
-        <ul style="margin-right: 50px;">
-            <li data-menuanchor="firstPage" class="active"><a href="#firstPage">First section</a></li>
-            <li data-menuanchor="secondPage"><a href="#secondPage">Second section</a></li>
-            <li data-menuanchor="3rdPage"><a href="#3rdPage">Third section</a></li>
-            <li data-menuanchor="4thpage"><a href="#4thpage">Fourth section</a></li>
+        <ul>
+            <!-- <li data-menuanchor="firstPage" class="active"><a href="#firstPage">First section</a></li> -->
+            <li data-menuanchor="features"><a href="#features">Features</a></li>
+            <li data-menuanchor="installation"><a href="#installation">Installation</a></li>
+            <li data-menuanchor="usage"><a href="#usage">Usage</a></li>
+            <li data-menuanchor="flow-diagram"><a href="#flow-diagram">Flow Diagram</a></li>
+            <li data-menuanchor="api"><a href="#api">API</a></li>
+            <li data-menuanchor="demo"><a href="#demo">Live Demo</a></li>
         </ul>
     </div>
 
@@ -40,12 +43,61 @@
         <div class="section active" id="section0">
             <h2>Super Workers</h2>
             <h5>Distribute load on client-side via parallelism</h5>
-            <a href="#4thpage" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">LIVE DEMO</a>
+            <a href="#demo" style="position: absolute;left:0;right:0;margin: auto;margin-top: 70px;" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">LIVE DEMO</a>
+
+           <!--  <div style="margin-top: 30px;">
+                <iframe
+                    src="https://ghbtns.com/github-btn.html?user=twbs&repo=bootstrap&type=star&count=true"
+                    frameborder="0"
+                    scrolling="0"
+                    style="width: 120px; height: 20px; border: none; display: inline-block;">
+                </iframe>
+
+                <iframe
+                  src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=http://github.com/softvar/super-workers&via=s0ftvar&text=Secure LocalStorage data with high level of encryption and data compression&hashtags=localStorage,javascript"
+                  width="80"
+                  height="28"
+                  title="Twitter Tweet Button"
+                  style="width: 76px; border: 0; overflow: hidden; display: inline-block;"></iframe>
+            </div> -->
+
         </div>
         <div class="section" id="section1"></div>
         <div class="section" id="section2"></div>
         <div class="section" id="section3"></div>
         <div class="section" id="section4"></div>
+        <div class="section" id="section5"></div>
+        <div class="section" id="section6" style="width:92%;margin:0 auto;padding:10px;">
+            <div class="mdl-grid" style="background: #fff;padding: 0;">
+              <div class="mdl-cell mdl-cell--3-col" style="margin:0;background: #d87070;color:#fff;padding-top: 8px">Tasks</div>
+              <div class="mdl-cell mdl-cell--3-col" style="margin:0;padding:8px;border: 1px solid;border-left:0">Recursive long calculations</div>
+              <div class="mdl-cell mdl-cell--3-col" style="margin:0;padding:8px;border: 1px solid;border-left:0">Asynchronous call & data modelling</div>
+              <div class="mdl-cell mdl-cell--3-col" style="margin:0;padding:8px;border: 1px solid;border-left:0">Binary data processing</div>
+            </div>
+            <div class="mdl-grid">
+                list
+            </div>
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col" style="border: 1px solid;background: #fff;">
+                    <div style="background: #d87070;color:#fff;border-bottom: 1px solid;">Workers</div>
+                    <div>1</div>
+                    <div>2</div>
+                    <div>3</div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col" style="border: 1px solid;background: #fff;">
+                    <div style="background: #d87070;color:#fff;border-bottom: 1px solid;">Tasks</div>
+                    <div>1</div>
+                    <div>2</div>
+                    <div>3</div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col" style="border: 1px solid;background: #fff;">
+                    <div style="background: #d87070;color:#fff;border-bottom: 1px solid;">Tasks running on workers</div>
+                    <div>1</div>
+                    <div>2</div>
+                    <div>3</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="text/javascript" src="vendor/jquery-3.2.1.min.js"></script>
@@ -53,15 +105,15 @@
     <script type="text/javascript">
     $(document).ready(function() {
         $('#fullpage').fullpage({
-            sectionsColor: ['#fff4f4', '#fff', '#fff4f4', '#fff', '#fff4f4'],
-            anchors: ['firstPage', 'secondPage', '3rdPage', '4thpage', 'lastPage'],
-            navigationTooltips: ['Introduction', 'Installation', 'Usage', 'API', 'Live demo'],
+            sectionsColor: ['#fff4f4', '#fff', '#fff4f4', '#fff', '#fff4f4', '#fff', '#fff4f4'],
+            anchors: ['', 'features', 'installation', 'usage', 'flow-diagram', 'api', 'demo'],
+            navigationTooltips: ['', 'Features', 'Installation', 'Usage', 'Flow Diagram', 'API', 'Live demo'],
             navigation: true,
             navigationPosition: 'right',
             menu: '#menu',
             css3: true,
             scrollingSpeed: 700,
-            responsiveWidth: 1000
+            responsiveWidth: 600
         });
     });
     </script>
