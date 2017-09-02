@@ -2,6 +2,7 @@ import UUID from './vendor/uuid';
 import TaskQueue from './TaskQueue';
 import WorkerUtils from './utils/worker';
 import GeneralUtils from './utils/generalUtils';
+import TaskStatusEnum from './enums/TaskStatusEnum';
 import WorkerStatusEnum from './enums/WorkerStatusEnum';
 import WorkerActionEnum from './enums/WorkerActionEnum';
 
@@ -53,17 +54,25 @@ class RegisterWorker {
     let task = TaskQueue._getCompleted(ev.data.taskId);
 
     if (ev.data.error) {
-      task.resolver.reject(GeneralUtils.deSerializeError(ev.data.error));
+      if (task.resolver && typeof task.resolver.reject === 'function') {
+        task.resolver.reject(GeneralUtils.deSerializeError(ev.data.error));
+      }
       this.totalJobsFailed += 1;
       this.lastJobFaileddAt = +new Date();
+      task.status = TaskStatusEnum.FAILED;
+      task.output = TaskStatusEnum.FAILED;
       if (task.onError && typeof task.onError === 'function') {
         task.onError();
       }
       return false;
     }
-    task.resolver.resolve(ev.data.result);
+    if (task.resolver && typeof task.resolver.resolve === 'function') {
+      task.resolver.resolve(ev.data.result);
+    }
     this.totalJobsCompleted += 1;
     this.lastJobCompletedAt = +new Date();
+    task.status = TaskStatusEnum.COMPLETED;
+    task.output = ev.data.result;
     if (task.onSuccess && typeof task.onSuccess === 'function') {
       task.onSuccess();
     }

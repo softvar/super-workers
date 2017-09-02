@@ -5,7 +5,7 @@ import TaskStatusEnum from './enums/TaskStatusEnum';
 let TaskQueue = {
   config: {},
   tasks: [],
-  completedTasks: [],
+  allTasks: [],
 
   /**
    * Add task to the queue
@@ -20,14 +20,16 @@ let TaskQueue = {
 
     task.id = UUID.generate() || TaskQueue.tasks.length;
     task.status = TaskStatusEnum.QUEUED;
+    task.output = TaskStatusEnum.PENDING;
     TaskQueue.tasks.push(task);
+    TaskQueue._addToAllList(task);
   },
-  _addToCompletedList: (task) => {
+  _addToAllList: (task) => {
     if (!task) { throw new Error('No task passed for queuing'); }
 
     if (Object.prototype.toString.call(task) !== '[object Object]') { throw new Error('Task should be an object'); }
 
-    TaskQueue.completedTasks.push(task);
+    TaskQueue.allTasks.push(task);
   },
   /**
    * Remove a task from the queue
@@ -36,12 +38,11 @@ let TaskQueue = {
   _remove: (id) => {
     if (!id) { throw new Error('No id passed'); }
 
-    let task;
+    let index;
 
-    task = ArrayUtils.searchByKeyName(TaskQueue.tasks, 'id', id, 'both');
-    TaskQueue._addToCompletedList(task.obj);
-    if (task.index !== -1) {
-      TaskQueue.tasks.splice(task.index, 1);
+    index = ArrayUtils.searchByKeyName(TaskQueue.tasks, 'id', id, 'index');
+    if (index !== -1) {
+      TaskQueue.tasks.splice(index, 1);
     }
 
     return this;
@@ -49,7 +50,7 @@ let TaskQueue = {
   _getCompleted: (id) => {
     if (!id) { throw new Error('No id passed'); }
 
-    let task = ArrayUtils.searchByKeyName(TaskQueue.completedTasks, 'id', id);
+    let task = ArrayUtils.searchByKeyName(TaskQueue.allTasks, 'id', id);
 
     return task || {};
   },

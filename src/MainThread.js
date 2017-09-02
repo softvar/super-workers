@@ -163,6 +163,8 @@ class MainThread {
       // if task is not already completed
       if (nextQueuedTask.status === TaskStatusEnum.QUEUED) {
         availableWorker.status = WorkerStatusEnum.ACTIVE;
+        nextQueuedTask.status = TaskStatusEnum.ACTIVE;
+
         // send the request to worker to execute
         availableWorker.worker.sendMessage(
           availableWorker.worker, {
@@ -187,6 +189,8 @@ class MainThread {
             if (this.config.minWorkers) {
               this._ensureMinWorkers();
             }
+          } else {
+            availableWorker.status = WorkerStatusEnum.IDLE;
           }
           this._runQueuedTask(); // trigger next task in the queue
         });
@@ -233,6 +237,7 @@ class MainThread {
 
     this.taskQueue = TaskQueue;
     this.taskQueue.tasks = [];
+    this.taskQueue.allTasks = [];
   };
 };
 

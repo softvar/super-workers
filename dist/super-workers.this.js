@@ -612,6 +612,8 @@ this["SuperWorkers"] =
 	        // if task is not already completed
 	        if (nextQueuedTask.status === _TaskStatusEnum2.default.QUEUED) {
 	          availableWorker.status = _WorkerStatusEnum2.default.ACTIVE;
+	          nextQueuedTask.status = _TaskStatusEnum2.default.ACTIVE;
+	
 	          // send the request to worker to execute
 	          availableWorker.worker.sendMessage(availableWorker.worker, {
 	            id: availableWorker.id,
@@ -633,6 +635,8 @@ this["SuperWorkers"] =
 	              if (_this.config.minWorkers) {
 	                _this._ensureMinWorkers();
 	              }
+	            } else {
+	              availableWorker.status = _WorkerStatusEnum2.default.IDLE;
 	            }
 	            _this._runQueuedTask(); // trigger next task in the queue
 	          });
@@ -686,6 +690,7 @@ this["SuperWorkers"] =
 	
 	      this.taskQueue = _TaskQueue2.default;
 	      this.taskQueue.tasks = [];
+	      this.taskQueue.allTasks = [];
 	    }
 	  }]);
 	
@@ -726,6 +731,10 @@ this["SuperWorkers"] =
 	var _generalUtils = __webpack_require__(9);
 	
 	var _generalUtils2 = _interopRequireDefault(_generalUtils);
+	
+	var _TaskStatusEnum = __webpack_require__(7);
+	
+	var _TaskStatusEnum2 = _interopRequireDefault(_TaskStatusEnum);
 	
 	var _WorkerStatusEnum = __webpack_require__(11);
 	
@@ -803,17 +812,25 @@ this["SuperWorkers"] =
 	      var task = _TaskQueue2.default._getCompleted(ev.data.taskId);
 	
 	      if (ev.data.error) {
-	        task.resolver.reject(_generalUtils2.default.deSerializeError(ev.data.error));
+	        if (task.resolver && typeof task.resolver.reject === 'function') {
+	          task.resolver.reject(_generalUtils2.default.deSerializeError(ev.data.error));
+	        }
 	        this.totalJobsFailed += 1;
 	        this.lastJobFaileddAt = +new Date();
+	        task.status = _TaskStatusEnum2.default.FAILED;
+	        task.output = _TaskStatusEnum2.default.FAILED;
 	        if (task.onError && typeof task.onError === 'function') {
 	          task.onError();
 	        }
 	        return false;
 	      }
-	      task.resolver.resolve(ev.data.result);
+	      if (task.resolver && typeof task.resolver.resolve === 'function') {
+	        task.resolver.resolve(ev.data.result);
+	      }
 	      this.totalJobsCompleted += 1;
 	      this.lastJobCompletedAt = +new Date();
+	      task.status = _TaskStatusEnum2.default.COMPLETED;
+	      task.output = ev.data.result;
 	      if (task.onSuccess && typeof task.onSuccess === 'function') {
 	        task.onSuccess();
 	      }
@@ -996,7 +1013,7 @@ this["SuperWorkers"] =
 	var TaskQueue = {
 	  config: {},
 	  tasks: [],
-	  completedTasks: [],
+	  allTasks: [],
 	
 	  /**
 	   * Add task to the queue
@@ -1013,9 +1030,11 @@ this["SuperWorkers"] =
 	
 	    task.id = _uuid2.default.generate() || TaskQueue.tasks.length;
 	    task.status = _TaskStatusEnum2.default.QUEUED;
+	    task.output = _TaskStatusEnum2.default.PENDING;
 	    TaskQueue.tasks.push(task);
+	    TaskQueue._addToAllList(task);
 	  },
-	  _addToCompletedList: function _addToCompletedList(task) {
+	  _addToAllList: function _addToAllList(task) {
 	    if (!task) {
 	      throw new Error('No task passed for queuing');
 	    }
@@ -1024,7 +1043,7 @@ this["SuperWorkers"] =
 	      throw new Error('Task should be an object');
 	    }
 	
-	    TaskQueue.completedTasks.push(task);
+	    TaskQueue.allTasks.push(task);
 	  },
 	  /**
 	   * Remove a task from the queue
@@ -1035,12 +1054,11 @@ this["SuperWorkers"] =
 	      throw new Error('No id passed');
 	    }
 	
-	    var task = void 0;
+	    var index = void 0;
 	
-	    task = _array2.default.searchByKeyName(TaskQueue.tasks, 'id', id, 'both');
-	    TaskQueue._addToCompletedList(task.obj);
-	    if (task.index !== -1) {
-	      TaskQueue.tasks.splice(task.index, 1);
+	    index = _array2.default.searchByKeyName(TaskQueue.tasks, 'id', id, 'index');
+	    if (index !== -1) {
+	      TaskQueue.tasks.splice(index, 1);
 	    }
 	
 	    return undefined;
@@ -1050,7 +1068,7 @@ this["SuperWorkers"] =
 	      throw new Error('No id passed');
 	    }
 	
-	    var task = _array2.default.searchByKeyName(TaskQueue.completedTasks, 'id', id);
+	    var task = _array2.default.searchByKeyName(TaskQueue.allTasks, 'id', id);
 	
 	    return task || {};
 	  },
@@ -1241,6 +1259,7 @@ this["SuperWorkers"] =
 	 * @type {Object}
 	 */
 	var TaskStatusEnum = {
+	  PENDING: 'pending',
 	  QUEUED: 'queued',
 	  ACTIVE: 'active',
 	  FAILED: 'failed',

@@ -3,6 +3,7 @@
  * @type {Object}
  */
 const TaskStatusEnum = {
+  PENDING: 'pending',
   QUEUED: 'queued',
   ACTIVE: 'active',
   FAILED: 'failed',
