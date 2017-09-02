@@ -816,7 +816,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var task = _TaskQueue2.default._getCompleted(ev.data.taskId);
 
 	      if (ev.data.error) {
-	        task.resolver.reject(_generalUtils2.default.deSerializeError(ev.data.error));
+	        if (task.resolver && task.resolver.reject) {
+	        	task.resolver.reject(_generalUtils2.default.deSerializeError(ev.data.error));
+	        }
 	        this.totalJobsFailed += 1;
 	        this.lastJobFaileddAt = +new Date();
 	        task.status = 'failed';
@@ -826,7 +828,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return false;
 	      }
-	      task.resolver.resolve(ev.data.result);
+	      if (task.resolver && task.resolver.resolve) {
+	      	task.resolver.resolve(ev.data.result);
+	      }
 	      this.totalJobsCompleted += 1;
 	      this.lastJobCompletedAt = +new Date();
 	      task.status = 'completed';
