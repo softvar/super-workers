@@ -607,7 +607,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var nextQueuedTask = this.taskQueue.getNextTask(),
 	          availableWorker = _worker2.default.getIdle()[0];
 
-
 	      if (!availableWorker && _worker2.default.getActive().length + _worker2.default.getIdle().length < this.config.maxWorkers) {
 	        // create a new worker
 	        this.register();
@@ -616,12 +615,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      if (availableWorker) {
 	        nextQueuedTask.runningOnWorkerId = availableWorker.id;
+
 	        // remove the task from queue list
 	        this.taskQueue._remove(nextQueuedTask.id);
 	        // if task is not already completed
 	        if (nextQueuedTask.status === _TaskStatusEnum2.default.QUEUED) {
 	          availableWorker.status = _WorkerStatusEnum2.default.ACTIVE;
 	          nextQueuedTask.status = _TaskStatusEnum2.default.ACTIVE;
+
 	          // send the request to worker to execute
 	          availableWorker.worker.sendMessage(availableWorker.worker, {
 	            id: availableWorker.id,
@@ -644,7 +645,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _this._ensureMinWorkers();
 	              }
 	            } else {
-	            	availableWorker.status = _WorkerStatusEnum2.default.IDLE;
+	              availableWorker.status = _WorkerStatusEnum2.default.IDLE;
 	            }
 	            _this._runQueuedTask(); // trigger next task in the queue
 	          });
@@ -740,6 +741,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _generalUtils2 = _interopRequireDefault(_generalUtils);
 
+	var _TaskStatusEnum = __webpack_require__(7);
+
+	var _TaskStatusEnum2 = _interopRequireDefault(_TaskStatusEnum);
+
 	var _WorkerStatusEnum = __webpack_require__(11);
 
 	var _WorkerStatusEnum2 = _interopRequireDefault(_WorkerStatusEnum);
@@ -816,24 +821,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var task = _TaskQueue2.default._getCompleted(ev.data.taskId);
 
 	      if (ev.data.error) {
-	        if (task.resolver && task.resolver.reject) {
-	        	task.resolver.reject(_generalUtils2.default.deSerializeError(ev.data.error));
+	        if (task.resolver && typeof task.resolver.reject === 'function') {
+	          task.resolver.reject(_generalUtils2.default.deSerializeError(ev.data.error));
 	        }
 	        this.totalJobsFailed += 1;
 	        this.lastJobFaileddAt = +new Date();
-	        task.status = 'failed';
-	        task.output = 'failed';
+	        task.status = _TaskStatusEnum2.default.FAILED;
+	        task.output = _TaskStatusEnum2.default.FAILED;
 	        if (task.onError && typeof task.onError === 'function') {
 	          task.onError();
 	        }
 	        return false;
 	      }
-	      if (task.resolver && task.resolver.resolve) {
-	      	task.resolver.resolve(ev.data.result);
+	      if (task.resolver && typeof task.resolver.resolve === 'function') {
+	        task.resolver.resolve(ev.data.result);
 	      }
 	      this.totalJobsCompleted += 1;
 	      this.lastJobCompletedAt = +new Date();
-	      task.status = 'completed';
+	      task.status = _TaskStatusEnum2.default.COMPLETED;
 	      task.output = ev.data.result;
 	      if (task.onSuccess && typeof task.onSuccess === 'function') {
 	        task.onSuccess();
@@ -1034,7 +1039,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    task.id = _uuid2.default.generate() || TaskQueue.tasks.length;
 	    task.status = _TaskStatusEnum2.default.QUEUED;
-	    task.output = 'pending';
+	    task.output = _TaskStatusEnum2.default.PENDING;
 	    TaskQueue.tasks.push(task);
 	    TaskQueue._addToAllList(task);
 	  },
@@ -1058,11 +1063,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      throw new Error('No id passed');
 	    }
 
-	    var task = void 0;
+	    var index = void 0;
 
-	    task = _array2.default.searchByKeyName(TaskQueue.tasks, 'id', id, 'both');
-	    if (task.index !== -1) {
-	      TaskQueue.tasks.splice(task.index, 1);
+	    index = _array2.default.searchByKeyName(TaskQueue.tasks, 'id', id, 'index');
+	    if (index !== -1) {
+	      TaskQueue.tasks.splice(index, 1);
 	    }
 
 	    return undefined;
@@ -1263,6 +1268,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @type {Object}
 	 */
 	var TaskStatusEnum = {
+	  PENDING: 'pending',
 	  QUEUED: 'queued',
 	  ACTIVE: 'active',
 	  FAILED: 'failed',
