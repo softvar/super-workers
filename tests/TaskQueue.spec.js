@@ -17,7 +17,7 @@ function addTask() {
 describe('TaskQueue', () => {
 	beforeEach(() => {
 		TaskQueue.tasks = [];
-		TaskQueue.completedTasks = [];
+		TaskQueue.allTasks = [];
 	});
 
 	describe('Basic tests', () => {
@@ -26,10 +26,10 @@ describe('TaskQueue', () => {
 
 			expect(TaskQueue.config).toEqual({});
 			expect(TaskQueue.tasks.length).toBe(0);
-			expect(TaskQueue.completedTasks.length).toBe(0);
+			expect(TaskQueue.allTasks.length).toBe(0);
 
 			expect(TaskQueue._add).toBeDefined();
-			expect(TaskQueue._addToCompletedList).toBeDefined();
+			expect(TaskQueue._addToAllList).toBeDefined();
 			expect(TaskQueue._remove).toBeDefined();
 			expect(TaskQueue._getCompleted).toBeDefined();
 			expect(TaskQueue.get).toBeDefined();
@@ -55,7 +55,7 @@ describe('TaskQueue', () => {
 			expect(TaskQueue.tasks[0].status).toEqual(TaskStatusEnum.QUEUED);
 		});
 	});
-	describe('method: _addToCompletedList', () => {
+	describe('method: _addToAllList', () => {
 		it('throw error if no task is provided', () => {
 			expect(TaskQueue._add).toThrow(new Error('No task passed for queuing'));
 		});
@@ -63,11 +63,11 @@ describe('TaskQueue', () => {
 			expect(function() { TaskQueue._add([]) }).toThrow(new Error('Task should be an object'));
 		});
 		it('should add task to completed list of tasks', () => {
-			expect(TaskQueue.completedTasks.length).toBe(0);
+			expect(TaskQueue.allTasks.length).toBe(0);
 
-			TaskQueue._addToCompletedList(addTask());
+			TaskQueue._addToAllList(addTask());
 
-			expect(TaskQueue.completedTasks.length).toBe(1);
+			expect(TaskQueue.allTasks.length).toBe(1);
 		});
 	});
 	describe('method: _remove', () => {
@@ -75,7 +75,7 @@ describe('TaskQueue', () => {
 			expect(TaskQueue._remove).toThrow(new Error('No id passed'));
 		});
 		it('should remove task from tasks list and add to completed list', () => {
-			spyOn(TaskQueue, '_addToCompletedList');
+			spyOn(TaskQueue, '_addToAllList');
 			// Add three tasks
 			TaskQueue._add(addTask());
 			TaskQueue._add(addTask());
@@ -88,19 +88,19 @@ describe('TaskQueue', () => {
 			expect(TaskQueue.tasks.length).toBe(3);
 
 			TaskQueue._remove(task1.id);
-			expect(TaskQueue._addToCompletedList).toHaveBeenCalled();
+			expect(TaskQueue._addToAllList).toHaveBeenCalled();
 			expect(TaskQueue.tasks.length).toBe(2);
 
 			TaskQueue._remove(task2.id);
-			expect(TaskQueue._addToCompletedList).toHaveBeenCalled();
+			expect(TaskQueue._addToAllList).toHaveBeenCalled();
 			expect(TaskQueue.tasks.length).toBe(1);
 
 			TaskQueue._remove('garbage-123456-xxx'); // No such id
-			expect(TaskQueue._addToCompletedList).toHaveBeenCalled();
+			expect(TaskQueue._addToAllList).toHaveBeenCalled();
 			expect(TaskQueue.tasks.length).toBe(1);
 
 			TaskQueue._remove(task3.id);
-			expect(TaskQueue._addToCompletedList).toHaveBeenCalled();
+			expect(TaskQueue._addToAllList).toHaveBeenCalled();
 			expect(TaskQueue.tasks.length).toBe(0);
 		});
 	});
@@ -117,12 +117,12 @@ describe('TaskQueue', () => {
 			task1 = TaskQueue.tasks[0];
 			task2 = TaskQueue.tasks[1];
 
-			TaskQueue._addToCompletedList(task1);
+			TaskQueue._addToAllList(task1);
 			expect(TaskQueue._getCompleted(task1.id)).toEqual(task1);
 
 			expect(TaskQueue._getCompleted('garbage-123-xxx')).toEqual({});
 
-			TaskQueue._addToCompletedList(task2);
+			TaskQueue._addToAllList(task2);
 			expect(TaskQueue._getCompleted(task2.id)).toEqual(task2);
 		});
 	});
