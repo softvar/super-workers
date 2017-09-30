@@ -1,5 +1,3 @@
-## change link - https://raw.githubusercontent.com/softvar/super-workers/master/super-workers.png
-
 <h1 align="center">super-workers</h1>
 
 <div align="center">
@@ -9,7 +7,7 @@
   <strong>Distribute load on front-end via parallelism</strong>
 </div>
 <div align="center">
-  A <code>11kb</code> lib for making multi-threading tasks easy on front-end
+  A <code>5.5kb</code> JavaScript library for executing multiple parallel tasks on front-end
 </div>
 
 <div align="center">
