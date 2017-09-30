@@ -1,6 +1,6 @@
 {
   "name": "super-workers",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Distribute load on front-end via parallelism",
   "main": "dist/super-workers.js",
   "scripts": {
