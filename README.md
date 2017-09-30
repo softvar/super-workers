@@ -1,4 +1,4 @@
-## change link - https://raw.githubusercontent.com/softvar/super-workerss/master/super-workerss.png
+## change link - https://raw.githubusercontent.com/softvar/super-workers/master/super-workers.png
 
 <h1 align="center">super-workers</h1>
 
@@ -35,12 +35,12 @@
 <br />
 <br />
 
-[![npm version](https://badge.fury.io/js/super-workerss.svg)](https://www.npmjs.com/package/super-workers) [![npm](https://img.shields.io/npm/dt/super-workers.svg)](https://www.npmjs.com/package/super-workers) [![Build Status](http://img.shields.io/travis/softvar/super-workers/master.svg?style=flat)](http://travis-ci.org/softvar/super-workers) [![Coverage Status](https://coveralls.io/repos/github/softvar/super-workers/badge.svg?branch=master)](https://coveralls.io/github/softvar/super-workers?branch=master) ![](https://img.shields.io/cdnjs/v/super-workerss.svg?colorB=dd4814) ![](http://img.badgesize.io/softvar/super-workerss/master/dist/super-workerss.min.js?compression=gzip&color=blue)
+[![npm version](https://badge.fury.io/js/super-workers.svg)](https://www.npmjs.com/package/super-workers) [![npm](https://img.shields.io/npm/dt/super-workers.svg)](https://www.npmjs.com/package/super-workers) [![Build Status](http://img.shields.io/travis/softvar/super-workers/master.svg?style=flat)](http://travis-ci.org/softvar/super-workers) [![Coverage Status](https://coveralls.io/repos/github/softvar/super-workers/badge.svg?branch=master)](https://coveralls.io/github/softvar/super-workers?branch=master) ![](https://img.shields.io/cdnjs/v/super-workers.svg?colorB=dd4814) ![](http://img.badgesize.io/softvar/super-workers/master/dist/super-workers.min.js?compression=gzip&color=blue)
 
 <!-- [![NPM](https://nodei.co/npm/super-workers.png?downloads=true)](https://nodei.co/npm/super-workers/) -->
 
-<!-- <a href="https://news.ycombinator.com/item?id=14041400"><img src="https://raw.githubusercontent.com/softvar/super-workerss/master/images/hn.png" width="150" height="20"/></a>
-<a href="https://www.producthunt.com/posts/super-workerss"><img src="https://raw.githubusercontent.com/softvar/super-workerss/master/images/product_hunt.png" width="100" height="20"/></a> -->
+<!-- <a href="https://news.ycombinator.com/item?id=14041400"><img src="https://raw.githubusercontent.com/softvar/super-workers/master/images/hn.png" width="150" height="20"/></a>
+<a href="https://www.producthunt.com/posts/super-workers"><img src="https://raw.githubusercontent.com/softvar/super-workers/master/images/product_hunt.png" width="100" height="20"/></a> -->
 
 ### Table of Contents
 * [Features](#features)
@@ -97,7 +97,7 @@ $ bower install super-workers
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/super-workers/1.0.0/super-workers.min.js"></script>
 ```
 
-**Note**: Use the desired version of the library in place of `1.0.0`. Checkout [cdnjs super-workerss](https://cdnjs.com/libraries/super-workerss). -->
+**Note**: Use the desired version of the library in place of `1.0.0`. Checkout [cdnjs super-workers](https://cdnjs.com/libraries/super-workers). -->
 
 ### Flow Diagram
 
@@ -111,7 +111,7 @@ $ bower install super-workers
 
 Below diagram will aid in understanding the flow better
 
-<!-- https://raw.githubusercontent.com/softvar/super-workerss/master/parent-tab-communication.jpg -->
+<!-- https://raw.githubusercontent.com/softvar/super-workers/master/parent-tab-communication.jpg -->
 <img src="images/super-workers-flow-diagram.png" />
 
 ---
