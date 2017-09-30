@@ -300,7 +300,7 @@ Refer [above section](#create-an-instance--reference-before-using) on how to cre
 
   |   Parameter   |        Description          |
   | ------------- | --------------------------- |
-  |     msg       |        msg to be ent        |
+  |     msg       |        msg to be sent        |
 
   ```
     sp.broadCastAll('Hello my dear Child! A greeting from Parent.'});
@@ -327,7 +327,7 @@ Refer [above section](#create-an-instance--reference-before-using) on how to cre
 
   |   Parameter   |        Description            |   Accepts    |
   | ------------- | ----------------------------- | ------------ |
-  |     msg       |        msg to be ent          |    Object    |
+  |     msg       |        msg to be sent          |    Object    |
   |     origin    |        origin                 |    String    |
 
   ```
@@ -354,7 +354,7 @@ Refer [above section](#create-an-instance--reference-before-using) on how to cre
 
 * **`get`**
 
-  Returns the task
+  Returns the task.
 
   |   Parameter   |        Description                       |
   | ------------- | ---------------------------------------- |
@@ -364,9 +364,9 @@ Refer [above section](#create-an-instance--reference-before-using) on how to cre
     sp.taskQueue.get('34cd47da-d98e-4a2d-814c-9b07cb510578');
   ```
 
-* **`getActive`**
+* **`getAll`**
 
-  Returns the list of all `active` tasks.
+  Returns the list of all `all` tasks.
 
   ```
     sp.taskQueue.getAll();
@@ -398,7 +398,7 @@ Refer [above section](#create-an-instance--reference-before-using) on how to cre
 
 * **`tasks`** and **`allTasks`**
 
-  Returns tasks which are in queue
+  Returns tasks which are in queue.
   ```
     sp.taskQueue.tasks
   ```
@@ -412,7 +412,7 @@ Refer [above section](#create-an-instance--reference-before-using) on how to cre
 
 Tested in Chrome, Firefox and IE(versions >= 9).
 
-### Sites using super-workerss
+### Sites using super-workers
 
 * *[Add your site]* - See [Contributing](#contributing) section
 
