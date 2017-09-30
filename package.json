@@ -1,7 +1,7 @@
 {
   "name": "super-workers",
   "version": "0.1.0",
-  "description": "Distribute workload among web workers",
+  "description": "Distribute load on front-end via parallelism",
   "main": "dist/super-workers.js",
   "scripts": {
     "build": "parallel-webpack --mode=build",
