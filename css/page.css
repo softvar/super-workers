@@ -581,18 +581,17 @@ table {
 }
 
 .fragment-id {
-  visibility: hidden;
   text-decoration: underline;
 }
 
 .fragment-id svg {
   width: 30px;
   height: 30px;
-  fill: #777;
+  fill: #999;
 }
 
-.section-content h3:hover .fragment-id {
-  visibility: visible;
+.section-content h3:hover .fragment-id>svg {
+  fill: #444;
 }
 
 .script-download {

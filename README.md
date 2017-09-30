@@ -184,7 +184,6 @@ importScripts('path/to/super-workers.min.js');
 // It will expose `SuperWorkers`
 ```
 
-
 ```
 var child = new SuperWorkers.WorkerThread();
 ```
