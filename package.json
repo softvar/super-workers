@@ -4,7 +4,7 @@
   "description": "Distribute load on front-end via parallelism",
   "main": "dist/super-workers.js",
   "scripts": {
-    "build": "webpack --env.mode=build",
+    "build": "webpack --optimize-minimize --env.mode=build",
     "build-dev": "webpack -- --env.mode=dev",
     "build-test": "karma start --single-run --no-auto-watch karma.config.js",
     "dev": "webpack --progress --colors --watch --env.mode=dev",

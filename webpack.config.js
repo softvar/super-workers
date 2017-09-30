@@ -1,5 +1,4 @@
 let webpack = require('webpack');
-let UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 let createVariants = require('parallel-webpack').createVariants;
 
 // Import the plugin:
@@ -27,10 +26,6 @@ let plugins = [
   })
 ];
 let outputFile;
-
-if (mode === 'build') {
-  plugins.push(new UglifyJsPlugin({ minimize: true }));
-}
 
 function createConfig(options) {
   return {
