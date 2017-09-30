@@ -3,9 +3,9 @@
  * @type {Object}
  */
 const WorkerStatusEnum = {
-  IDLE: 'idle',
-  ACTIVE: 'active',
-  TERMINATED: 'terminated'
+	IDLE: 'idle',
+	ACTIVE: 'active',
+	TERMINATED: 'terminated'
 };
 
 export default WorkerStatusEnum;

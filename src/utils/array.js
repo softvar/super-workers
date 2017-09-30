@@ -7,9 +7,9 @@ let ArrayUtils = {};
  * 3. `BOTH` returns an object { obj: matched_object, index: index_found }
  */
 let returnPreferenceEnum = {
-  INDEX: 'index',
-  OBJECT: 'object',
-  BOTH: 'both'
+	INDEX: 'index',
+	OBJECT: 'object',
+	BOTH: 'both'
 };
 
 /**
@@ -21,44 +21,47 @@ let returnPreferenceEnum = {
  * @return {Object}
  */
 ArrayUtils.searchByKeyName = (data, key, value, returnPreference) => {
-  if (!data || !key) { return false; }
+	if (!data || !key) { return false; }
 
-  returnPreference = returnPreference || returnPreferenceEnum[1]; // default to Object
-  let i, obj, returnData, index = -1;
+	returnPreference = returnPreference || returnPreferenceEnum[1]; // default to Object
+	let i;
+	let obj;
+	let returnData;
+	let index = -1;
 
-  for (i = 0; i < data.length; i++) {
-    obj = data[i];
-    // Number matching support
-    if (!isNaN(value) && obj && parseInt(obj[key], 10) === parseInt(value, 10)) {
-      index = i;
-      break;
-    } else if (isNaN(value) && obj && obj[key] === value) { // String exact matching support
-      index = i;
-      break;
-    }
-  }
+	for (i = 0; i < data.length; i++) {
+		obj = data[i];
+		// Number matching support
+		if (!isNaN(value) && obj && parseInt(obj[key], 10) === parseInt(value, 10)) {
+			index = i;
+			break;
+		} else if (isNaN(value) && obj && obj[key] === value) { // String exact matching support
+			index = i;
+			break;
+		}
+	}
 
-  if (index === -1) { // item not found
-    data[index] = {}; // for consistency
-  }
+	if (index === -1) { // item not found
+		data[index] = {}; // for consistency
+	}
 
-  switch (returnPreference) {
-    case returnPreferenceEnum.INDEX:
-      returnData = index;
-      break;
-    case returnPreferenceEnum.BOTH:
-      returnData = {
-        obj: data[index],
-        index: index
-      };
-      break;
-    case returnPreferenceEnum.OBJECT:
-    default:
-      returnData = data[index];
-      break;
-  }
+	switch (returnPreference) {
+		case returnPreferenceEnum.INDEX:
+			returnData = index;
+			break;
+		case returnPreferenceEnum.BOTH:
+			returnData = {
+				obj: data[index],
+				index: index
+			};
+			break;
+		case returnPreferenceEnum.OBJECT:
+		default:
+			returnData = data[index];
+			break;
+	}
 
-  return returnData;
+	return returnData;
 };
 
 /**
@@ -68,9 +71,9 @@ ArrayUtils.searchByKeyName = (data, key, value, returnPreference) => {
  * @param {Boolean} orederBy - Sort in asc/desc order. If nothing is specified, it's ascending order.
  */
 ArrayUtils.sortOn = (arr, key, orderBy) => {
-  arr.sort(function (a, b) {
-    return orderBy ? b[key] - a[key] : a[key] - b[key];
-  });
+	arr.sort(function (a, b) {
+		return orderBy ? b[key] - a[key] : a[key] - b[key];
+	});
 };
 
 /**
@@ -80,14 +83,14 @@ ArrayUtils.sortOn = (arr, key, orderBy) => {
  * @param {Boolean} orederBy - Sort in asc/desc order. If nothing is specified, it's ascending order.
  */
 ArrayUtils.sortOnStringType = (arr, key) => {
-  arr.sort(function (a, b) {
-    if (a[key] < b[key]) {
-      return -1;
-    } else if (a[key] > b[key]) {
-      return 1;
-    }
-    return 0;
-  });
+	arr.sort(function (a, b) {
+		if (a[key] < b[key]) {
+			return -1;
+		} else if (a[key] > b[key]) {
+			return 1;
+		}
+		return 0;
+	});
 };
 
 export default ArrayUtils;

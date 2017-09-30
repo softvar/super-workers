@@ -8,114 +8,114 @@ import WorkerActionEnum from './enums/WorkerActionEnum';
 
 // Named Class expression
 class RegisterWorker {
-  /**
+	/**
    * Invoked when the object is instantiated
    */
-  constructor(config) {
-    this.init(config);
-  };
-  // reject all running tasks on worker error
-  onError(error) {
-    this.status = WorkerStatusEnum.TERMINATED;
-    let activeTasks = TaskQueue.getActive(),
-      activeTasksRunningOnWorker = [];
+	constructor(config) {
+		this.init(config);
+	};
+	// reject all running tasks on worker error
+	onError(error) {
+		this.status = WorkerStatusEnum.TERMINATED;
+		let activeTasks = TaskQueue.getActive();
+		let activeTasksRunningOnWorker = [];
 
-    if (activeTasks && activeTasks.length) {
-      activeTasksRunningOnWorker = activeTasks.filter(task => task.runningOnWorkerId === this.id);
-    }
+		if (activeTasks && activeTasks.length) {
+			activeTasksRunningOnWorker = activeTasks.filter(task => task.runningOnWorkerId === this.id);
+		}
 
-    for (let i = 0; i < activeTasksRunningOnWorker.length; i++) {
-      activeTasksRunningOnWorker[i].resolver.reject(error);
-    }
+		for (let i = 0; i < activeTasksRunningOnWorker.length; i++) {
+			activeTasksRunningOnWorker[i].resolver.reject(error);
+		}
 
-    return activeTasksRunningOnWorker;
-  };
+		return activeTasksRunningOnWorker;
+	};
 
-   /**
+	/**
    * Attach postmessage, native and custom listeners to the window
    */
-  addEventListeners() {
-    this.worker.addEventListener('message', this.onWorkerMessage.bind(this), false);
-    // listen for worker messages error
-    this.worker.addEventListener('error', this.onError.bind(this));
-    // listen for worker messages exit
-    this.worker.addEventListener('exit', () => {
-      let error = new Error('Worker terminated unexpectedly');
+	addEventListeners() {
+		this.worker.addEventListener('message', this.onWorkerMessage.bind(this), false);
+		// listen for worker messages error
+		this.worker.addEventListener('error', this.onError.bind(this));
+		// listen for worker messages exit
+		this.worker.addEventListener('exit', () => {
+			let error = new Error('Worker terminated unexpectedly');
 
-      this.onError(error).bind(this);
-    });
-  };
+			this.onError(error).bind(this);
+		});
+	};
 
-  onWorkerMessage(ev) {
-    if (!ev || !ev.data || ev.data.action !== WorkerActionEnum.EXEC) {
-      return false;
-    }
+	onWorkerMessage(ev) {
+		if (!ev || !ev.data || ev.data.action !== WorkerActionEnum.EXEC) {
+			return false;
+		}
 
-    let task = TaskQueue._getCompleted(ev.data.taskId);
+		let task = TaskQueue._getCompleted(ev.data.taskId);
 
-    if (ev.data.error) {
-      if (task.resolver && typeof task.resolver.reject === 'function') {
-        task.resolver.reject(GeneralUtils.deSerializeError(ev.data.error));
-      }
-      this.totalJobsFailed += 1;
-      this.lastJobFaileddAt = +new Date();
-      task.status = TaskStatusEnum.FAILED;
-      task.output = TaskStatusEnum.FAILED;
-      if (task.onError && typeof task.onError === 'function') {
-        task.onError();
-      }
-      return false;
-    }
-    if (task.resolver && typeof task.resolver.resolve === 'function') {
-      task.resolver.resolve(ev.data.result);
-    }
-    this.totalJobsCompleted += 1;
-    this.lastJobCompletedAt = +new Date();
-    task.status = TaskStatusEnum.COMPLETED;
-    task.output = ev.data.result;
-    if (task.onSuccess && typeof task.onSuccess === 'function') {
-      task.onSuccess();
-    }
-    return true;
-  };
-  /**
+		if (ev.data.error) {
+			if (task.resolver && typeof task.resolver.reject === 'function') {
+				task.resolver.reject(GeneralUtils.deSerializeError(ev.data.error));
+			}
+			this.totalJobsFailed += 1;
+			this.lastJobFaileddAt = +new Date();
+			task.status = TaskStatusEnum.FAILED;
+			task.output = TaskStatusEnum.FAILED;
+			if (task.onError && typeof task.onError === 'function') {
+				task.onError();
+			}
+			return false;
+		}
+		if (task.resolver && typeof task.resolver.resolve === 'function') {
+			task.resolver.resolve(ev.data.result);
+		}
+		this.totalJobsCompleted += 1;
+		this.lastJobCompletedAt = +new Date();
+		task.status = TaskStatusEnum.COMPLETED;
+		task.output = ev.data.result;
+		if (task.onSuccess && typeof task.onSuccess === 'function') {
+			task.onSuccess();
+		}
+		return true;
+	};
+	/**
    * Open a new tab
    * @param  {Object} config - Refer API for config keys
    * @return {Object} this
    */
-  init(config) {
-    config = config || {};
+	init(config) {
+		config = config || {};
 
-    Object.assign(this, config);
-    this.id = UUID.generate() || (WorkerUtils.workers.length + 1);
-    this.status = WorkerStatusEnum.IDLE;
-    this.createdAt = +new Date();
-    this.lastJobCompletedAt = null;
-    this.totalJobsCompleted = 0;
-    this.totalJobsFailed = 0;
+		Object.assign(this, config);
+		this.id = UUID.generate() || (WorkerUtils.workers.length + 1);
+		this.status = WorkerStatusEnum.IDLE;
+		this.createdAt = +new Date();
+		this.lastJobCompletedAt = null;
+		this.totalJobsCompleted = 0;
+		this.totalJobsFailed = 0;
 
-    this.worker = new Worker(config.url);
+		this.worker = new Worker(config.url);
 
-    WorkerUtils.sendMessage(this.worker, {
-      id: this.id,
-      action: WorkerActionEnum.READY,
-      message: 'Worker is ready.'
-    });
+		WorkerUtils.sendMessage(this.worker, {
+			id: this.id,
+			action: WorkerActionEnum.READY,
+			message: 'Worker is ready.'
+		});
 
-    // TODO: only add methods which are needed
-    Object.assign(this.worker, {
-      sendMessage: WorkerUtils.sendMessage
-    });
+		// TODO: only add methods which are needed
+		Object.assign(this.worker, {
+			sendMessage: WorkerUtils.sendMessage
+		});
 
-    // Add Worker event-listeners
-    this.addEventListeners();
+		// Add Worker event-listeners
+		this.addEventListeners();
 
-    // Push it to the list of workers
-    WorkerUtils.addNew(this);
+		// Push it to the list of workers
+		WorkerUtils.addNew(this);
 
-     // Return reference for chaining purpose
-    return this;
-  };
+		// Return reference for chaining purpose
+		return this;
+	};
 };
 
 export default RegisterWorker;
