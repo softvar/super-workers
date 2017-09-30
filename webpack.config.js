@@ -1,17 +1,18 @@
-var webpack = require('webpack');
-var DashboardPlugin = require('webpack-dashboard/plugin');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var createVariants = require('parallel-webpack').createVariants;
+let webpack = require('webpack');
+let UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+let createVariants = require('parallel-webpack').createVariants;
 
 // Import the plugin:
-var path = require('path');
-var env = require('yargs').argv.mode;
+let path = require('path');
+let env = require('yargs').argv.env;
+console.warn(env.mode);
 
-var libraryName = 'super-workers';
+let mode = env.mode;
+const libraryName = 'super-workers';
 
-var libVersion = JSON.stringify(require("./package.json").version);
+let libVersion = JSON.stringify(require("./package.json").version);
 
-var libraryHeaderComment =  '\n' +
+let libraryHeaderComment =  '\n' +
   'super-workers ' + libVersion + '\n' +
   'https://github.com/softvar/super-workers.js\n' +
   'MIT LICENSE\n' +
@@ -19,15 +20,16 @@ var libraryHeaderComment =  '\n' +
   'Copyright (C) 2017-2018 softvar - A project by Varun Malhotra(https://github.com/softvar)\n';
 
 
-var plugins = [
-  new webpack.BannerPlugin(libraryHeaderComment, { entryOnly: true })
+let plugins = [
+  new webpack.BannerPlugin({
+    banner: libraryHeaderComment,
+    entryOnly: true
+  })
 ];
-var outputFile;
+let outputFile;
 
-if (env === 'build') {
+if (mode === 'build') {
   plugins.push(new UglifyJsPlugin({ minimize: true }));
-} else {
-  plugins.push(new DashboardPlugin());
 }
 
 function createConfig(options) {
@@ -37,31 +39,36 @@ function createConfig(options) {
     output: {
       path: __dirname + '/dist',
       library: 'SuperWorkers',
-      filename: libraryName + (options.target ? '.' + options.target : '') + (env === 'build' ? '.min.js' : '.js'),
+      filename: libraryName + (options.target ? '.' + options.target : '') + (mode === 'build' ? '.min.js' : '.js'),
       libraryTarget: options.target || 'umd',
       umdNamedDefine: true
     },
     module: {
-      loaders: [
-        {
-          test: /(\.js)$/,
-          loader: 'babel',
-          exclude: /(node_modules|bower_components)/
-        },
-        {
-          test: /(\.js)$/,
-          loader: 'eslint-loader',
-          exclude: /node_modules/
+      rules: [{
+        test: /(\.js)$/,
+        exclude: /(node_modules)/,
+        use: {
+          // babel-loader to convert ES6 code to ES5 + amdCleaning requirejs code into simple JS code, taking care of modules to load as desired
+          loader: 'babel-loader',
+          options: {
+            presets: ['env'],
+            plugins: []
+          }
         }
-      ]
-    },
-    eslint: {
-      failOnWarning: false,
-      failOnError: false
-    },
-    resolve: {
-      root: path.resolve('./src'),
-      extensions: ['', '.js']
+      }, {
+        enforce: 'pre',
+        test: /(.js)$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'eslint-loader',
+          options: {
+            emitError: true,
+            emitWarning: true,
+            failOnWarning: mode === 'build',
+            failOnError: mode === 'build'
+          }
+        }
+      }]
     },
     plugins: plugins
   };
