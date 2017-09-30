@@ -486,6 +486,9 @@ footer a {
   .script-download {
     font-size: 18px !important;
   }
+  .section-content {
+    padding: 40px 50px 40px 20px !important;
+  }
 }
 
 /* Landscape phones and down */
@@ -498,6 +501,15 @@ footer a {
   }
   .hljs {
     font-size: 10.5px;
+  }
+  .section-content {
+    padding: 40px 15px 40px 20px !important;
+  }
+  .live-demo-box {
+    height: 365px !important;
+  }
+  .live-demo-box-container {
+    height: 320px !important;
   }
 }
 

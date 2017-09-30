@@ -34,11 +34,11 @@ $(document).ready(function () {
             $('.installation-nav-link').addClass('is-active  active');
         } else if (topOffset > 3 * viewportHeight && topOffset < 5 * viewportHeight) {
             $('.flow-diagram-nav-link').addClass('is-active  active');
-        } else if (topOffset > 5 * viewportHeight && topOffset < 9 * viewportHeight) {
+        } else if (topOffset > 5 * viewportHeight && topOffset < 8.5 * viewportHeight) {
             $('.docs-nav-link').addClass('is-active  active');
-        } else if (topOffset > 9 * viewportHeight && topOffset < 12 * viewportHeight) {
+        } else if (topOffset > 8.5 * viewportHeight && topOffset < 10.5 * viewportHeight) {
             $('.usage-nav-link').addClass('is-active  active');
-        } else if (topOffset > 12 * viewportHeight && topOffset < 14 * viewportHeight) {
+        } else if (topOffset > 10.5 * viewportHeight && topOffset < 14 * viewportHeight) {
             $('.live-demo-nav-link').addClass('is-active  active');
         } else {
             unhighlightAllNavBarLinks()
@@ -179,18 +179,26 @@ window.fullpage = new Vue({
         }],
         uiTaskQueue: []
     },
+    watch: {
+        minWorkers: function () {
+            this.updateConfig();
+        },
+        maxWorkers: function () {
+            this.updateConfig();
+        }
+    },
     methods: {
         updateConfig: function () {
-            this.minWorkers = parseInt(this.minWorkers, 10);
-            this.maxWorkers = parseInt(this.maxWorkers, 10);
+            this.minWorkers = parseInt(this.minWorkers, 10) || '';
+            this.maxWorkers = parseInt(this.maxWorkers, 10) || '';
 
-            if (typeof this.minWorkers !== 'number') {
+            if (this.minWorkers !== '' && typeof this.minWorkers !== 'number') {
                 alert('Please enter a valid minWorkers number');
                 this.isConfigSet = false;
                 return;
             }
 
-            if (typeof this.maxWorkers !== 'number') {
+            if (this.maxWorkers !== '' && typeof this.maxWorkers !== 'number') {
                 alert('Please enter a valid maxWorkers number');
                 this.isConfigSet = false;
                 return;
@@ -248,6 +256,7 @@ window.fullpage = new Vue({
         },
         init: function () {
             var self = this;
+            self.updateConfig();
 
             // hack to update mdl and other elements in UI
             setInterval(function () {

@@ -166,6 +166,10 @@
                         Define callbacks to be get triggered at various events. Eg. on successful execution of task, on exceeding the time limit of task execution, etc.
                     </li>
                     <br />
+                    <li>
+                        Exports in a UMD format i.e. library works everywhere.
+                    </li>
+                    <br />
                 </ul>
             </div>
         </div>
@@ -182,21 +186,21 @@
                 </h3>
                 <br /><br />
 
-                <div style="font-size: 25px; color: #999;">Using npm</div>
+                <div style="font-size: 25px; color: #999;">Using <a href="https://www.npmjs.com/">npm</a></div>
                 <div class="script-download">
                     <pre><code class="hljs">
                         $ npm install super-workers
                     </code><pre>
                 </div>
                 <br /><br />
-                <div style="font-size: 25px; color: #999;">Using yarn</div>
+                <div style="font-size: 25px; color: #999;">Using <a href="https://yarnpkg.com/en/">yarn</a></div>
                 <div class="script-download">
                     <pre><code class="hljs">
                         $ yarn install super-workers
                     </code></pre>
                 </div>
                 <br /><br />
-                <div style="font-size: 25px; color: #999;">Using bower</div>
+                <div style="font-size: 25px; color: #999;">Using <a href="https://bower.io/">bower</a></div>
                 <div class="script-download">
                     <pre><code class="hljs">
                         $ bower install super-workers
@@ -277,7 +281,7 @@
                     </tr>
                      <tr>
                       <td class="mdl-data-table__cell--non-numeric">killWorkersAfterJob</td>
-                      <td>false</td>
+                      <td>true</td>
                       <td>Boolean</td>
                     </tr>
                   </tbody>
@@ -533,9 +537,9 @@ sp.exec(fibonacci, [5], {
                                     <span class="mdl-textfield__error">Input is not a number!</span>
                                 </div>
                             </div>
-                            <div class="mdl-cell mdl-cell--4-col  mdl-cell--12-col-phone  mdl-cell--12-col-tablet live-demo-header">
-                                <button class="mdl-button mdl-js-button mdl-button--success task-btn" v-on:click="updateConfig()">Update</button>
-                            </div>
+                            <!-- <div class="mdl-cell mdl-cell--4-col  mdl-cell--12-col-phone  mdl-cell--12-col-tablet live-demo-header">
+                                <button class="mdl-button mdl-js-button mdl-button--success task-btn" style="margin-top:20px;" v-on:click="updateConfig()">Update config</button>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -564,6 +568,21 @@ sp.exec(fibonacci, [5], {
                     </div>
                 </div>
 
+                <div v-if="!allTasks.length">
+                    <div style="text-align: center;margin:15px;">
+                        <strong>Please click on above tasks.</strong>
+                    </div>
+                    <strong>Some points to remember:</strong>
+                    <li>
+                        Clicking a task will push it into a queue and based on the config defined above i.e. minWorkers and maxWorkers, the library will display the statistics accordingly.
+                    </li>
+                    <li>
+                        <stong>MaxWorkers</stong> is the number which decided how many parallel workers can be spawned. Each new woker means a new CPU thread, therefore, the speed and time of task execution is in direct proportion to the machine hardware configuration.
+                    </li>
+                    <li>
+                        Please use the maxWorkers number wisely while using this library in a real project.
+                    </li>
+                </div>
                 <div class="mdl-grid" v-if="allTasks.length">
                     <div class="mdl-cell mdl-cell--3-col  mdl-cell mdl-cell--12-col-phone  mdl-cell mdl-cell--12-col-tablet live-demo-header  padding-top--10">Task Queue</div>
                     <div class="mdl-cell mdl-cell--9-col  mdl-cell mdl-cell--12-col-phone  mdl-cell mdl-cell--12-col-tablet live-demo-header" style="overflow-x: scroll;max-height: 135px;">
@@ -662,7 +681,15 @@ sp.exec(fibonacci, [5], {
 
                         <div class="live-demo-box-container">
                             <div v-for="task in allTasks" class="live-demo-box-content">
-                                {{ task.runningOnWorkerId }} - {{ task }}
+                                Task Id: <strong>{{ task.id }}</strong>
+                                <div>Name: <strong>{{ task.name }}</strong></div>
+                                <div>Priority: <strong>{{ task.priority }}</strong></div>
+                                <div>RunningOnWorker: <strong>{{ task.runningOnWorkerId || '...' }}</strong></div>
+                                <div>Status: <strong v-bind:class="{
+                                    'task-completed': task.status === 'completed',
+                                    'task-active': task.status === 'active',
+                                    'task-failed': task.status === 'failed',
+                                    'task-queued': task.status === 'queued'}">{{ task.status }}</strong></div>
                             </div>
                         </div>
                     </div>
