@@ -234,6 +234,42 @@
                 <div class="text--center">
                     <img src="images/super-workers-flow-diagram.png" width="95%"/>
                 </div>
+
+                <h4>Explanation of diagram</h4>
+
+                <hr/>
+                <h5>Setting the workers configuration</h5>
+
+                Lets have the following worker configuration:
+
+                <li>minimum number of workers always available to execute tasks - <i>minWorkers = 1</i></li>
+                <li>maximum number of workers that should be spwaned irrespective of the number of tasks in the queue - <i>maxWorkers = 3</i>. This number will restrict registering of workers more than this number. We can not set this number randomly since it depend on the number of cores in a machine. By default, the library will pick it for you using <i>navigator.hardwareConcurrency</i> or it's polyfill. Setting it too high will not boost queue processing as it becomes constant after the threshold(totally depends upon the hardware configuration).</li>
+
+                <hr/ >
+
+                <h5>Task Queue Process Management</h5>
+
+                <li>Initially the task queue(TQ) is empty.</li>
+                <li>Task T1, T2, and T3 arrive in the same order but with different priorities.</li>
+                <li>Task T1 is of <i>medium</i> priority.</li>
+                <li>T1 is pushed into queue and <i>Task Queue Process Management</i> reorders the <i>TQ</i> based on tasks' prioriies.</li>
+                <li>After proper ordering of tasks, task is ready to be executed by the web-worker tasks</li>
+
+                <hr/>
+
+                <h5>Web worker Execution</h5>
+
+                <li>Firstly, availability of workers is checked.</li>
+                <li>If there is no worker available, there are two cases.<br/>
+  i) All workers are busy i.e. maxWorkers number has been reached, so, tasks need to be in queue for more time before they can be picked up for execution.
+  <br/>
+  ii) No worker has been spwaned yet and <i>maxNumbers</i> is greater than the number of spawned workers.</li>
+
+                <li>If the condition for spwaning a new worker passes, a web-worker is registered and the task is removed from the TQ and is executed.</li>
+                <li>Worker(s) execute(s) the task(s) and return a <i>promise</i>.</li>
+                <li>After completion of task, the process is re-run to execute next pending tasks in the <i>TQ</i>.</li>
+
+                <hr/>
             </div>
         </div>
         <div id="docs">
@@ -319,7 +355,7 @@
 });
 </code></pre>
 
-                <h4>Methods</h4>
+                <h4>Main thread Methods</h4>
 
                 <h5 style="margin-top: 40px;">exec</h5>
 
@@ -397,11 +433,28 @@ sp.exec('add', [1,2], {
 });
 </code></pre>
 
+                <h5 style="margin-top: 40px;">getAllWorkers</h5>
+                Returns the list of all the workers.
+                <pre><code class="hljs">sp.getAllWorkers();</code></pre>
 
-                <h5 style="margin-top: 40px;">get</h5>
+                <h5 style="margin-top: 40px;">getActiveWorkers</h5>
+                Returns the list of all active workers.
+                <pre><code class="hljs">sp.getActiveWorkers();</code></pre>
 
-                Gets data back from specified key from the localStorage library. If the key is not provided, the library will warn.
+                <h5 style="margin-top: 40px;">getIdleWorkers</h5>
+                Returns the list of all idle workers.
+                <pre><code class="hljs">sp.getIdleWorkers();</code></pre>
 
+                <h5 style="margin-top: 40px;">getTerminatedWorkers</h5>
+                Returns the list of all the terminated workers.
+                <pre><code class="hljs">sp.getTerminatedWorkers();</code></pre>
+
+                <h5 style="margin-top: 40px;">terminateAllWorkers</h5>
+                Termiates all the workers irrespective of the status.
+                <pre><code class="hljs">sp.terminateAllWorkers();</code></pre>
+
+                <h5 style="margin-top: 40px;">terminateWorker</h5>
+                Terminated a particular worker by passing the worker-id.
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                   <thead>
                     <tr>
@@ -411,13 +464,151 @@ sp.exec('add', [1,2], {
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="mdl-data-table__cell--non-numeric">key</td>
-                      <td class="mdl-data-table__cell--non-numeric">key in which data is stored</td>
+                      <td class="mdl-data-table__cell--non-numeric">id</td>
+                      <td class="mdl-data-table__cell--non-numeric">id of the worker to be terminated</td>
+                    </tr>
+                  </tbody>
+                 </table>
+                <pre><code class="hljs">sp.terminateWorker('57cd47da-d98e-4a2d-814c-9b07cb51059c');</code></pre>
+
+                <h5 style="margin-top: 40px;">broadCastAll</h5>
+                Sends a same message to all the active workers (Message would be sent via <i>postMessage</i> API)
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                  <thead>
+                    <tr>
+                      <th class="mdl-data-table__cell--non-numeric">Parameter</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="mdl-data-table__cell--non-numeric">id</td>
+                      <td class="mdl-data-table__cell--non-numeric">id of the worker to be terminated</td>
+                    </tr>
+                  </tbody>
+                 </table>
+                <pre><code class="hljs">sp.broadCastAll('Hello my dear Child! A greeting from Parent.'});</code></pre>
+
+                <h5 style="margin-top: 40px;">broadCastTo</h5>
+                Sends a message to a particular active worker (Message would be sent via <i>postMessage</i> API)
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                  <thead>
+                    <tr>
+                      <th class="mdl-data-table__cell--non-numeric">Parameter</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="mdl-data-table__cell--non-numeric">id</td>
+                      <td class="mdl-data-table__cell--non-numeric">id of the worker to be terminated</td>
+                    </tr>
+                    <tr>
+                      <td class="mdl-data-table__cell--non-numeric">msg</td>
+                      <td class="mdl-data-table__cell--non-numeric">msg to be sent</td>
+                    </tr>
+                  </tbody>
+                 </table>
+                <pre><code class="hljs">sp.broadCastTo('57cd47da-d98e-4a2d-814c-9b07cb51059c', 'Hey! Can you run the script: worker.js? Thanks!');</code></pre>
+
+
+                <h4>Child(Worker) thread Methods</h4>
+
+                <h5 style="margin-top: 40px;">sendMessage</h5>
+                Sends a message to Main thread.
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                  <thead>
+                    <tr>
+                      <th class="mdl-data-table__cell--non-numeric">Parameter</th>
+                      <th>Description</th>
+                      <th>Accepts</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="mdl-data-table__cell--non-numeric">msg</td>
+                      <td class="mdl-data-table__cell--non-numeric">msg to be sent</td>
+                      <td class="mdl-data-table__cell--non-numeric">Object</td>
+                    </tr>
+                    <tr>
+                      <td class="mdl-data-table__cell--non-numeric">origin</td>
+                      <td class="mdl-data-table__cell--non-numeric">origin</td>
+                      <td class="mdl-data-table__cell--non-numeric">String</td>
                     </tr>
                   </tbody>
                  </table>
 
-                <pre><code class="hljs">ls.get('key-name'})</code></pre>
+                <pre><code class="hljs">child.sendMessage(obj, '*');</code></pre>
+
+                <h5 style="margin-top: 40px;">exposeMethods</h5>
+                It works as a proxy. Methods which needs to be onloaded should be exposed before they can used in main thread.
+
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                  <thead>
+                    <tr>
+                      <th class="mdl-data-table__cell--non-numeric">Parameter</th>
+                      <th>Description</th>
+                      <th>Accepts</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="mdl-data-table__cell--non-numeric">methods</td>
+                      <td class="mdl-data-table__cell--non-numeric">list of all functions</td>
+                      <td class="mdl-data-table__cell--non-numeric">Object</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                  <pre><code class="hljs">child.exposeMethods({
+    add: function (a, b) {
+      return a + b;
+    }
+  });</code></pre>
+
+
+                <h4>Task Queue Methods</h4>
+
+                <h5 style="margin-top: 40px;">get</h5>
+                Returns the task.
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                  <thead>
+                    <tr>
+                      <th class="mdl-data-table__cell--non-numeric">Parameter</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="mdl-data-table__cell--non-numeric">id</td>
+                      <td class="mdl-data-table__cell--non-numeric">id of the task</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <pre><code class="hljs">sp.taskQueue.get('34cd47da-d98e-4a2d-814c-9b07cb510578');</code></pre>
+
+                <h5 style="margin-top: 40px;">getAll</h5>
+                Returns the list of all tasks.
+                <pre><code class="hljs">sp.getAll();</code></pre>
+
+                <h5 style="margin-top: 40px;">getActive</h5>
+                Returns the list of all active tasks.
+                <pre><code class="hljs">sp.getActive();</code></pre>
+
+                <h5 style="margin-top: 40px;">getCompleted</h5>
+                Returns the list of all completed tasks.
+                <pre><code class="hljs">sp.getCompleted();</code></pre>
+
+                <h5 style="margin-top: 40px;">getFailed</h5>
+                Returns the list of all the failed tasks.
+                <pre><code class="hljs">sp.getFailed();</code></pre>
+
+                <h5 style="margin-top: 40px;">tasks and allTasks</h5>
+                Returns tasks which are in queue.
+                <pre><code class="hljs">sp.taskQueue.tasks</code></pre>
+                Returns all the tasks i.e. pending, queued, active and completed/failed.
+                <pre><code class="hljs">sp.taskQueue.allTasks</code></pre>
+
             </div>
         </div>
 
