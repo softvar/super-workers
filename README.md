@@ -33,7 +33,7 @@
 <br />
 <br />
 
-[![npm version](https://badge.fury.io/js/super-workers.svg)](https://www.npmjs.com/package/super-workers) [![npm](https://img.shields.io/npm/dt/super-workers.svg)](https://www.npmjs.com/package/super-workers) [![Build Status](http://img.shields.io/travis/softvar/super-workers/master.svg?style=flat)](http://travis-ci.org/softvar/super-workers) [![Coverage Status](https://coveralls.io/repos/github/softvar/super-workers/badge.svg?branch=master)](https://coveralls.io/github/softvar/super-workers?branch=master) ![](https://img.shields.io/cdnjs/v/super-workers.svg?colorB=dd4814) ![](http://img.badgesize.io/softvar/super-workers/master/dist/super-workers.min.js?compression=gzip&color=blue)
+[![npm version](https://badge.fury.io/js/super-workers.svg)](https://www.npmjs.com/package/super-workers) [![npm](https://img.shields.io/npm/dt/super-workers.svg)](https://www.npmjs.com/package/super-workers) [![Build Status](http://img.shields.io/travis/softvar/super-workers/master.svg?style=flat)](http://travis-ci.org/softvar/super-workers) [![Coverage Status](https://coveralls.io/repos/github/softvar/super-workers/badge.svg?branch=master)](https://coveralls.io/github/softvar/super-workers?branch=master) ![](http://img.badgesize.io/softvar/super-workers/master/dist/super-workers.min.js?compression=gzip&color=blue)
 
 <!-- [![NPM](https://nodei.co/npm/super-workers.png?downloads=true)](https://nodei.co/npm/super-workers/) -->
 
