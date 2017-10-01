@@ -78,7 +78,7 @@ $ npm install super-workers
 2. Via [yarn](https://yarnpkg.com/en/)
 
 ```
-$ yarn install super-workers
+$ yarn add super-workers
 ```
 
 3. Via [bower](https://bower.io/)
