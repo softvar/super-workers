@@ -33,7 +33,7 @@
 <br />
 <br />
 
-[![npm version](https://badge.fury.io/js/super-workers.svg)](https://www.npmjs.com/package/super-workers) [![npm](https://img.shields.io/npm/dt/super-workers.svg)](https://www.npmjs.com/package/super-workers) [![Build Status](http://img.shields.io/travis/softvar/super-workers/master.svg?style=flat)](http://travis-ci.org/softvar/super-workers) [![Coverage Status](https://coveralls.io/repos/github/softvar/super-workers/badge.svg?branch=master)](https://coveralls.io/github/softvar/super-workers?branch=master) ![](http://img.badgesize.io/softvar/super-workers/master/dist/super-workers.min.js?compression=gzip&color=blue)
+[![npm version](https://badge.fury.io/js/super-workers.svg)](https://www.npmjs.com/package/super-workers) [![npm](https://img.shields.io/npm/dt/super-workers.svg)](https://www.npmjs.com/package/super-workers) [![Build Status](http://img.shields.io/travis/softvar/super-workers/master.svg?style=flat)](http://travis-ci.org/softvar/super-workers) [![Coverage Status](https://coveralls.io/repos/github/softvar/super-workers/badge.svg?branch=master)](https://coveralls.io/github/softvar/super-workers?branch=master) ![](http://img.badgesize.io/softvar/super-workers/master/dist/super-workers.min.js?compression=gzip&color=blue) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BCSVNLXCZ4JLW)
 
 <!-- [![NPM](https://nodei.co/npm/super-workers.png?downloads=true)](https://nodei.co/npm/super-workers/) -->
 
@@ -67,6 +67,11 @@
 9. Exports in a UMD format i.e. library works everywhere (nodejs doesn't have the concept of workers but have child-process concept which is not handled in this lib).
 10. Only `~5.5 KB` gzipped.
 
+<hr>
+
+Is it what you're looking for?
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BCSVNLXCZ4JLW)
 ### Installation
 
 1. Via [npm](https://www.npmjs.com/)
@@ -460,6 +465,11 @@ ES6 source files
 
 ### Authors
 **[Varun Malhotra](http://varunmalhotra.xyz)** [@softvar](https://github.com/softvar)
+
+### Feel like helping?
+Please don't hesitate to buy me a cup of coffee :)
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BCSVNLXCZ4JLW)
 
 ### Copyright and license
 
