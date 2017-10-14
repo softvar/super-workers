@@ -489,6 +489,9 @@ footer a {
   .section-content {
     padding: 40px 50px 40px 20px !important;
   }
+  /*code {
+    max-width: 600px;
+  }*/
 }
 
 /* Landscape phones and down */
@@ -499,8 +502,11 @@ footer a {
   .script-download {
     font-size: 18px !important;
   }
+  /*code {
+    max-width: 300px;
+  }*/
   .hljs {
-    font-size: 10.5px;
+    font-size: 12px;
   }
   .section-content {
     padding: 40px 15px 40px 20px !important;
@@ -528,6 +534,7 @@ table {
 }
 
 #top, #installation, #features, #flow-diagram, #docs, #usage, #live-demo {
+  height: 100vh;
   min-height: 100vh;
   display: table;
   width: 100vw;
@@ -604,6 +611,7 @@ table {
 }
 
 code {
+  max-width: calc(100vw - 150px);
   border: 1px solid #e8e8e8;
   border-left: 3px solid #b1b1b1;
 }
