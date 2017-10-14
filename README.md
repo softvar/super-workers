@@ -67,11 +67,6 @@
 9. Exports in a UMD format i.e. library works everywhere (nodejs doesn't have the concept of workers but have child-process concept which is not handled in this lib).
 10. Only `~5.5 KB` gzipped.
 
-<hr>
-
-Is it what you're looking for?
-
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BCSVNLXCZ4JLW)
 ### Installation
 
 1. Via [npm](https://www.npmjs.com/)
