@@ -1,6 +1,6 @@
 {
   "name": "super-workers",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Distribute load on front-end via parallelism",
   "main": "dist/super-workers.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "test": "karma start karma.config.js",
     "coverage": "node node_modules/.bin/istanbul cover karma start --single-run karma.config.js",
     "coveralls": "cat ./coverage/report-lcov/lcov.info | node node_modules/.bin/coveralls",
-    "eslint-fix": "eslint 'src/**/*.js' --fix  --cache --config .eslintrc --ignore-path .eslintignore"
+    "lint-fix": "eslint 'tests/**/*.spec.js' --fix  --cache --config .eslintrc --ignore-path .eslintignore"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
