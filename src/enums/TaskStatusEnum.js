@@ -3,11 +3,11 @@
  * @type {Object}
  */
 const TaskStatusEnum = {
-	PENDING: 'pending',
-	QUEUED: 'queued',
-	ACTIVE: 'active',
-	FAILED: 'failed',
-	COMPLETED: 'completed'
+  PENDING: 'pending',
+  QUEUED: 'queued',
+  ACTIVE: 'active',
+  FAILED: 'failed',
+  COMPLETED: 'completed'
 };
 
 export default TaskStatusEnum;

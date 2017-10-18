@@ -7,9 +7,9 @@ import WorkerThread from './WorkerThread';
  * @type {Object}
  */
 const SuperWorkers = {
-	MainThread: MainThread,
-	WorkerThread: WorkerThread,
-	Promise: Promise
+  MainThread: MainThread,
+  WorkerThread: WorkerThread,
+  Promise: Promise
 };
 
 export default SuperWorkers;
