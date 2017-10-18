@@ -20,7 +20,7 @@ class MainThread {
 	constructor(config) {
 		config = config || {};
 
-		if (typeof config.maxWorkers === 'undefined') {
+		if (typeof config.minWorkers === 'undefined') {
 			config.minWorkers = 1;
 		}
 
