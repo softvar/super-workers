@@ -1,6 +1,6 @@
 /*!
  * 
- * super-workers "1.0.0"
+ * super-workers "1.0.1"
  * https://github.com/softvar/super-workers.js
  * MIT LICENSE
  * 
@@ -1259,7 +1259,7 @@ var MainThread = function () {
 
 		config = config || {};
 
-		if (typeof config.maxWorkers === 'undefined') {
+		if (typeof config.minWorkers === 'undefined') {
 			config.minWorkers = 1;
 		}
 
