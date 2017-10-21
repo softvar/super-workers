@@ -24,7 +24,7 @@
       Contributing
     </a>
     <span> | </span>
-    <a href="http://webchat.freenode.net?channels=super-workers&uio=d4">
+    <a href="https://gitter.im/super-workers/Lobby#">
       Chat
     </a>
   </h3>
