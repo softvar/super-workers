@@ -56,15 +56,15 @@
 
 ### Features
 
-1. Run multipe tasks parallely without blocking the main thread.
+1. Run multiple tasks parallelly without blocking the main thread.
 2. Jank-free pages since all the computations take place in worker-thread and not in main-thread (thereby speed and performance at the same time).
-3. On-demand initialization of web-workers based on task-queue size. Configure minimum and maximum number of web-workers or let library smartly decide based on hardware concurrency number.
+3. On-demand initialization of web-workers based on task-queue size. Configure minimum and a maximum number of web-workers or let library smartly decide based on hardware concurrency number.
 4. Configure task(set priority, time-to-live) and *Priority Task Queue Management System(PTQMS)* will take care of the queue handling and execution.
 5. Termination of idle(non-used) web-workers for better performance(can be opt-out while configuring). Set minimum number of web-workers to restrict their termination when idle, so that they remain present for future needs.
 6. Fully fledged API to get all the information regarding tasks and workers at any given point of time.
-7. Promise based execution of tasks i.e. perform different actions on success or failure. Useful for re-attempting failed task.
-8. Define callbacks to be get triggered at various events. Eg. on successful execution of task, on exceeding the time limit of task execution, etc.
-9. Exports in a UMD format i.e. library works everywhere (nodejs doesn't have the concept of workers but have child-process concept which is not handled in this lib).
+7. Promise based execution of tasks i.e. perform different actions on success or failure. Useful for the re-attempting failed task.
+8. Define callbacks to be get triggered at various events. Eg. on the successful execution of the task, on exceeding the time limit of task execution, etc.
+9. Exports in a `UMD` format i.e. library works everywhere (nodejs doesn't have the concept of workers but have a child-process concept which is not handled in this lib).
 10. Only `~5.5 KB` gzipped.
 
 ### Installation
